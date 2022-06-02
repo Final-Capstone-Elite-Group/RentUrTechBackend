@@ -6,8 +6,8 @@ Thanks for taking the time to review the project. Here are some things important
 
 ### Changes implemented in this PR
 
-- :checked Solves #X (Specify the issue its being solve through this PR)
-- :checked Implement additional features (Something you find important to point out that was not specified in the issue)
+- [X] Solves #X (Specify the issue its being solve through this PR)
+- [X] Implement additional features (Something you find important to point out that was not specified in the issue)
 
 ## Final notes -Reviewer
 
