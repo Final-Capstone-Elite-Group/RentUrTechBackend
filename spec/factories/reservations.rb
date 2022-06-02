@@ -1,8 +1,10 @@
+require 'ffaker'
+
 FactoryBot.define do
   factory :reservation do
-    total { 1.5 }
-    reserved_date { "2022-06-02 11:20:50" }
-    city { "MyString" }
-    user_id { 1 }
+    total { rand(1..300) }
+    reserved_date { DateTime.now }
+    city { FFaker::Address.city }
+    user_id { nil } # TODO: Modify to user when user is created
   end
 end
