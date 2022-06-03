@@ -29,11 +29,11 @@ RSpec.describe EquipmentsController, type: :controller do
 
     context 'should delete one equipment' do
       it 'success' do
-        delete(:destroy, params: params)
+        delete(:destroy, params:)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(204)
-        expect(json_response['equipment_destroy']["id"]).to eq(equipment.id)
+        expect(json_response['equipment_destroy']['id']).to eq(equipment.id)
         expect(Equipment.all).to eq([])
       end
     end
