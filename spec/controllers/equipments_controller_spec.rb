@@ -20,8 +20,22 @@ RSpec.describe EquipmentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let!(:equipment) { create(:equipment) }
+    let(:params) do
+      {
+        id: equipment.id
+      }
+    end
+
     context 'should delete one equipment' do
-      raise NotImplementedError
+      it 'success' do
+        delete(:destroy, params: params)
+        json_response = JSON.parse(response.body)
+
+        expect(response.status).to eq(204)
+        expect(json_response['equipment_destroy']["id"]).to eq(equipment.id)
+        expect(Equipment.all).to eq([])
+      end
     end
   end
 end
