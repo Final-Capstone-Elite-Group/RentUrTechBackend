@@ -2,11 +2,11 @@ class Reservations::Create
   include Interactor
 
   before do
-    context.reservartions_params ||= context.params
+    context.user_params ||= context.params
   end
 
   def call
-
+    context.reservation
   end
 
   private

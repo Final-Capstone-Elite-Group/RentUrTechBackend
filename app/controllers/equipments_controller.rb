@@ -1,6 +1,6 @@
 class EquipmentsController < ApplicationController
   include Response
-  skip_before_action :authorize_request, only: %i[index show destroy]
+  skip_before_action :authorize_request, only: %i[index show]
 
   def index
     ctx = Equipments::Index.call
