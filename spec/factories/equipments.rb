@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :equipment, class: 'Equipment' do
     title { FFaker::Lorem.characters(10) }
-    description { FFaker::Lorem.words(200) }
+    description { FFaker::Lorem.characters(200) }
     review { FFaker::Lorem.word }
     date_reserved { Date.today }
     duration { FFaker::Random.rand(60) }
