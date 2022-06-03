@@ -2,7 +2,10 @@ class EquipmentsController < ApplicationController
   include Response
   skip_before_action :authorize_request, only: %i[index show destroy]
 
-  def index; end
+  def index
+    ctx = Equipments::Index.call
+    json_response({ equipments: ctx.equipments })
+  end
 
   def show; end
 
