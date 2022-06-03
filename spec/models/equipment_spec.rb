@@ -15,7 +15,6 @@ RSpec.describe Reservation, type: :model do
         expect(subject).to_not be_valid
       end
 
-
       it 'should have a title with more than 2 characters' do
         subject.title = 'No'
 
@@ -37,13 +36,13 @@ RSpec.describe Reservation, type: :model do
       end
 
       it 'should have a description with more than 200 characters' do
-        subject.description = 'A'*190
+        subject.description = 'A' * 190
 
         expect(subject).to_not be_valid
       end
 
       it 'should have a description with more less than 2000 characters' do
-        subject.description = 'A'*2001
+        subject.description = 'A' * 2001
 
         expect(subject).to_not be_valid
       end
