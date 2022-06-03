@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe EquipmentReservation, type: :model do
   before :all do
+    user = create :user
     @equipment = create :equipment
-    @reservation = create :reservation
+    @reservation = create :reservation, user:
   end
 
   subject { create :equipment_reservation, equipment: @equipment, reservation: @reservation }
