@@ -12,7 +12,7 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When request is valid' do
       it 'returns an authentication token' do
-        post('/login', params: params)
+        post('/login', params:)
         json_response = JSON.parse(response.body)
 
         expect(json_response['auth_token']).not_to be_nil

@@ -13,7 +13,7 @@ class Auth::AuthenticateUser
   attr_reader :username, :password
 
   def user
-    user = User.find_by(username: username)
+    user = User.find_by(username:)
     return user if !!user&.authenticate(password)
   end
 end

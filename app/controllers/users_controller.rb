@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  include Interactor, Response
+  include Response
+  include Interactor
   skip_before_action :authorize_request, only: :create
 
   def create
@@ -7,8 +8,7 @@ class UsersController < ApplicationController
     json_response({ user: user_ctx.user, token: user_ctx.token }, 201)
   end
 
-  def show
-  end
+  def show; end
 
   private
 
