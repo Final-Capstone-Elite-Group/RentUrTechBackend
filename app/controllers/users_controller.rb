@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   skip_before_action :authorize_request, only: :create
 
   def create
-    user_ctx = Users::Create.call(params: user_params)
-    json_response({ user: user_ctx.user, token: user_ctx.token }, 201)
+    context = Users::Create.call(params: user_params)
+    json_response(context.message, context.status)
   end
 
   def show; end
