@@ -5,7 +5,7 @@ class EquipmentsController < ApplicationController
 
   def index
     ctx = Equipments::Index.call
-    json_response({ equipments: ctx.equipments })
+    render json: ctx.equipments, each_serializer: EquipmentSerializer
   end
 
   def show; end
@@ -13,4 +13,10 @@ class EquipmentsController < ApplicationController
   def create; end
 
   def destroy; end
+
+  private
+
+  def equipment_params
+    params.require(:equipment).permit(:title, :description, :review, :date_reserved, :duration, :rent_fee, :total_amount_payable, :image)
+  end
 end
