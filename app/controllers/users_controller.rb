@@ -7,6 +7,9 @@ class UsersController < ApplicationController
     json_response({ user: user_ctx.user, token: user_ctx.token }, 201)
   end
 
+  def show
+  end
+
   private
 
   def user_params
