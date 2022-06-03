@@ -5,6 +5,6 @@ FactoryBot.define do
     total { rand(1..300) }
     reserved_date { DateTime.now }
     city { FFaker::Address.city }
-    user_id { nil } # TODO: Modify to user when user is created
+    user { association :user }
   end
 end
