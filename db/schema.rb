@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_02_160727) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_02_234031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_02_160727) do
     t.integer "duration"
     t.decimal "rent_fee"
     t.decimal "total_amount_payable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.decimal "total"
+    t.datetime "reserved_date"
+    t.string "city"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
