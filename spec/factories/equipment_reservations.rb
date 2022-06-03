@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :equipment_reservation do
-    reservation { nil }
-    equipment { nil }
+    reservation { association :reservation }
+    equipment { association :equipment }
   end
 end

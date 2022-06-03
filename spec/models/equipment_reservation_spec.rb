@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe EquipmentReservation, type: :model do
-  before :all do
-    user = create :user
-    @equipment = create :equipment
-    @reservation = create :reservation, user:
-  end
-
-  subject { create :equipment_reservation, equipment: @equipment, reservation: @reservation }
+  subject { create :equipment_reservation }
 
   it 'should have an equipment' do
     subject.equipment = nil

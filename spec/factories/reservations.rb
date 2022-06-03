@@ -5,6 +5,6 @@ FactoryBot.define do
     total { rand(1..300) }
     reserved_date { DateTime.now }
     city { FFaker::Address.city }
-    user { nil }
+    user { association :user }
   end
 end
