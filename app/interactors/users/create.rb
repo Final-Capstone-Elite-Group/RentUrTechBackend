@@ -2,7 +2,7 @@ class Users::Create
   include Interactor
 
   before do
-    context.user_params ||= params[:user]
+    context.user_params ||= context.params
   end
 
   def call

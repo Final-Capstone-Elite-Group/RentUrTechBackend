@@ -1,15 +1,15 @@
 class UsersController < ApplicationController
-  include Interactor
+  include Interactor, Response
+  skip_before_action :authorize_request, only: :create
 
   def create
-    user, token = Users::Create.call(params: user_params)
-
-    json_response({ user: @user, token: token: token })
+    user_ctx = Users::Create.call(params: user_params)
+    json_response({ user: user_ctx.user, token: user_ctx.token }, 201)
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :role, :email)
+    params.require(:user).permit(:name, :username, :password, :email)
   end
 end
