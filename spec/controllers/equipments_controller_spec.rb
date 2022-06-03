@@ -5,13 +5,13 @@ RSpec.describe EquipmentsController, type: :controller do
     let!(:equipments) { create_list(:equipment, 10) }
 
     context 'should return all equipments' do
-      it "success" do
+      it 'success' do
         get(:index)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(200)
-        expect(json_response["equipments"].count).to eq(10)
-        expect(json_response["equipments"].first["id"]).to eq(equipments.last.id)
+        expect(json_response['equipments'].count).to eq(10)
+        expect(json_response['equipments'].first['id']).to eq(equipments.last.id)
       end
     end
   end
