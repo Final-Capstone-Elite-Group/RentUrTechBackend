@@ -4,7 +4,6 @@ class CreateReservations < ActiveRecord::Migration[7.0]
       t.decimal :total
       t.datetime :reserved_date
       t.string :city
-      t.integer :user_id
 
       t.timestamps
     end
