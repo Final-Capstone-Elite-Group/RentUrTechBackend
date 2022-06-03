@@ -4,8 +4,8 @@ class Auth::AuthenticateUser
     @password = password
   end
 
-  # Service entry point
   def call
+    byebug
     JsonWebToken.encode(user_id: user.id) if user
   end
 
@@ -13,9 +13,8 @@ class Auth::AuthenticateUser
 
   attr_reader :username, :password
 
-  # verify user credentials
   def user
     user = User.find_by(username: username)
-    return user if user&.valid_password?(password)
+    return user if !!user&.authenticate(password)
   end
 end
