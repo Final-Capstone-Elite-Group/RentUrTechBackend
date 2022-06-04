@@ -1,7 +1,6 @@
 class EquipmentsController < ApplicationController
   include Response
-
-  skip_before_action :authorize_request, only: %i[index show]
+  skip_before_action :authorize_request, only: %i[index show destroy]
 
   def index
     ctx = Equipments::Index.call
@@ -19,7 +18,12 @@ class EquipmentsController < ApplicationController
     json_response(ctx[:message], ctx[:status])
   end
 
-  def destroy; end
+  def destroy
+    destroy_ctx = Equipment.find(params[:id])
+    if destroy_ctx.destroy
+      json_response( { message: 'Equipment succesfully deleted' }, 200)
+    end
+  end
 
   private
 

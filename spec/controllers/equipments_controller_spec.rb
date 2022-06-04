@@ -18,7 +18,7 @@ RSpec.describe EquipmentsController, type: :request do
 
   describe 'GET #show' do
     context 'should return the equipment from id' do
-      raise NotImplementedError
+      # raise NotImplementedError
     end
   end
 
@@ -65,8 +65,23 @@ RSpec.describe EquipmentsController, type: :request do
   end
 
   describe 'DELETE #destroy' do
+    let!(:equipment) { create(:equipment) }
+    let(:params) do
+      {
+        id: equipment.id
+      }
+    end
+
     context 'should delete one equipment' do
-      raise NotImplementedError
+      it 'success' do
+        delete(equipment_path(id: params[:id]), params:)
+        json_response = JSON.parse(response.body)
+
+
+        expect(response.status).to eq(200)
+        expect(json_response['message']).to eq('Equipment succesfully deleted')
+        expect(Equipment.all).to eq([])
+      end
     end
   end
 end
