@@ -7,5 +7,6 @@ FactoryBot.define do
     duration { FFaker::Random.rand(60) }
     rent_fee { FFaker::Random.rand(1000) }
     total_amount_payable { FFaker::Random.rand(1000) }
+    user { association :user }
   end
 end

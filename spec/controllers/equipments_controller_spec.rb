@@ -29,7 +29,10 @@ RSpec.describe EquipmentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment) }
+    let!(:another_equipment) { create(:equipment) }
+
     let(:params) do
       {
         id: equipment.id
@@ -38,12 +41,12 @@ RSpec.describe EquipmentsController, type: :controller do
 
     context 'should delete one equipment' do
       it 'success' do
+        request.headers.merge(valid_headers)
         delete(:destroy, params:)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(204)
-        expect(json_response['equipment_destroy']['id']).to eq(equipment.id)
-        expect(Equipment.all).to eq([])
+        expect(Equipment.all.count).to eq(1)
       end
     end
   end

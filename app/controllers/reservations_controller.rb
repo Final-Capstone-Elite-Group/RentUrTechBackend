@@ -1,19 +1,26 @@
 class ReservationsController < ApplicationController
+  include Response
+
   def index; end
 
   def create
-    reservation_ctx = Reservations::Create.call({
-      params: reservartions_params,
-      user: @current_user  })
+    context = Reservations::Create.call({
+      params: create_params,
+      user: @current_user  
+    })
 
-    json_response({ reservation: reservation_ctx.reservation })
+    json_response(context.message, context.status)
   end
 
   def destroy; end
 
   private
 
-  def reservartions_params
-    params.require(:reservation).permit(:total, :reserved_date, :city)
+  def create_params
+    params.require(:reservation).permit(reservations_params)
+  end
+
+  def reservations_params
+    %i[total reserved_date city equipment_id]
   end
 end

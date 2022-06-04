@@ -1,4 +1,4 @@
-class CreateEquipment < ActiveRecord::Migration[7.0]
+class CreateEquipments < ActiveRecord::Migration[7.0]
   def change
     create_table :equipment do |t|
       t.string :title
@@ -8,6 +8,7 @@ class CreateEquipment < ActiveRecord::Migration[7.0]
       t.integer :duration
       t.decimal :rent_fee
       t.decimal :total_amount_payable
+      t.references :user, null: false, foreign_key: true
       t.timestamps
     end
   end
