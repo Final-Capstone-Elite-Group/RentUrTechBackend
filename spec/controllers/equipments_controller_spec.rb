@@ -10,8 +10,8 @@ RSpec.describe EquipmentsController, type: :request do
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(200)
-        expect(json_response.count).to eq(10)
-        expect(json_response.first['id']).to eq(equipments.last.id)
+        expect(json_response['data'].count).to eq(10)
+        expect(json_response['data'].first['attributes']['id']).to eq(equipments.last.id)
       end
     end
   end
@@ -45,10 +45,10 @@ RSpec.describe EquipmentsController, type: :request do
         equipment_db = Equipment.last
 
         expect(response.status).to eq(201)
-        expect(json_response['title']).to eq(equipment_db.title)
-        expect(json_response['description']).to eq(equipment_db.description)
-        expect(json_response['review']).to eq(equipment_db.review)
-        expect(json_response['duration']).to eq(equipment_db.duration)
+        expect(json_response['data']['attributes']['title']).to eq(equipment_db.title)
+        expect(json_response['data']['attributes']['description']).to eq(equipment_db.description)
+        expect(json_response['data']['attributes']['review']).to eq(equipment_db.review)
+        expect(json_response['data']['attributes']['duration']).to eq(equipment_db.duration)
       end
 
       it 'should fail if unproper parameters are sent' do
@@ -76,7 +76,6 @@ RSpec.describe EquipmentsController, type: :request do
       it 'success' do
         delete(equipment_path(id: params[:id]), params:)
         json_response = JSON.parse(response.body)
-
 
         expect(response.status).to eq(200)
         expect(json_response['message']).to eq('Equipment succesfully deleted')
