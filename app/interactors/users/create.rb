@@ -10,8 +10,8 @@ class Users::Create
       create_user!
       create_token!
     end
-    rescue StandardError => e
-      handle_errors(e.message)
+  rescue StandardError => e
+    handle_errors(e.message)
   end
 
   private

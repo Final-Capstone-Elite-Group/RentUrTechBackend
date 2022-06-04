@@ -5,9 +5,9 @@ class ReservationsController < ApplicationController
 
   def create
     context = Reservations::Create.call({
-      params: create_params,
-      user: @current_user  
-    })
+                                          params: create_params,
+                                          user: @current_user
+                                        })
 
     json_response(context.message, context.status)
   end

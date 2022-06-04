@@ -29,11 +29,11 @@ RSpec.describe 'UsersController', type: :request do
 
     context 'should not create user' do
       it 'failed' do
-        post('/signup', params: params.merge(user: { email: "blabla" }))
+        post('/signup', params: params.merge(user: { email: 'blabla' }))
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(422)
-        expect(json_response["errors"]).to eq("Validation failed: Password can't be blank, Email is invalid")
+        expect(json_response['errors']).to eq("Validation failed: Password can't be blank, Email is invalid")
       end
     end
   end

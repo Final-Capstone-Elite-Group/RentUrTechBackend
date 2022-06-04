@@ -7,14 +7,16 @@ class Reservations::Create
 
   def call
     create_reservation!
-    rescue StandardError => e
-      handle_errors(e.message)
+  rescue StandardError => e
+    handle_errors(e.message)
   end
 
   private
 
   def create_reservation!
-    context.message = Reservation.create!(context.reservations_params.merge(user_id: context.user.id)) if context.reservations_params
+    if context.reservations_params
+      context.message = Reservation.create!(context.reservations_params.merge(user_id: context.user.id))
+    end
 
     context.status = 200
   end
@@ -23,5 +25,4 @@ class Reservations::Create
     context.message = { errors: message }
     context.status = 422
   end
-
 end

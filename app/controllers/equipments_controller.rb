@@ -12,7 +12,7 @@ class EquipmentsController < ApplicationController
   def create; end
 
   def destroy
-    destroy_ctx = Equipment.find(params[:id]).destroy
+    Equipment.find(params[:id]).destroy
     json_response({}, 204)
   end
 end

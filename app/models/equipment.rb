@@ -15,15 +15,11 @@ class Equipment < ApplicationRecord
   private
 
   def validate_images!
-    acceptable_types = ["image/jpeg", "image/png"]
+    acceptable_types = ['image/jpeg', 'image/png']
     images.each do |img|
-      unless img.byte_size <= 1.megabyte
-        errors.add(:img, "is too big")
-      end
+      errors.add(:img, 'is too big') unless img.byte_size <= 1.megabyte
 
-      unless acceptable_types.include?(img.content_type)
-        errors.add(:img, "must be a JPEG or PNG")
-      end
+      errors.add(:img, 'must be a JPEG or PNG') unless acceptable_types.include?(img.content_type)
     end
   end
 end

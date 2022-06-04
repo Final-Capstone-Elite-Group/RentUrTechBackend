@@ -10,7 +10,7 @@ RSpec.describe ReservationsController, type: :controller do
         reservation: {
           total: 200,
           reserved_date: DateTime.now,
-          city: "New York",
+          city: 'New York',
           equipment_id: equipment.id
         }
       }
@@ -19,7 +19,7 @@ RSpec.describe ReservationsController, type: :controller do
     context 'should create one reservation for the equipment' do
       it 'success' do
         request.headers.merge(valid_headers)
-        post(:create, params: params)
+        post(:create, params:)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(200)

@@ -43,7 +43,6 @@ RSpec.describe EquipmentsController, type: :controller do
       it 'success' do
         request.headers.merge(valid_headers)
         delete(:destroy, params:)
-        json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(204)
         expect(Equipment.all.count).to eq(1)
