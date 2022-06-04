@@ -8,7 +8,7 @@ class CreateEquipments < ActiveRecord::Migration[7.0]
       t.integer :duration
       t.decimal :rent_fee
       t.decimal :total_amount_payable
-      t.references :user, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true, index: true
       t.timestamps
     end
   end
