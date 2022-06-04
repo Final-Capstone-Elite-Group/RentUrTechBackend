@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+# Attach images
+# equipment.image.attach io: File.open("spec/assets/test.png"), filename: "test.png", content_type: "image/png"

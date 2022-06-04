@@ -4,15 +4,28 @@ class EquipmentsController < ApplicationController
 
   def index
     ctx = Equipments::Index.call
-    json_response({ equipments: ctx.equipments })
+    render jsonapi: ctx.equipments, class: { Equipment: SerializableEquipment }
   end
 
   def show; end
 
-  def create; end
+  def create
+    ctx = Equipments::Create.call(params: equipment_params)
+    if ctx[:status] == 201
+      render jsonapi: ctx[:message], status: ctx[:status], class: { Equipment: SerializableEquipment }
+      return
+    end
+    json_response(ctx[:message], ctx[:status])
+  end
 
   def destroy
-    destroy_ctx = Equipment.find(params[:id]).destroy
-    json_response({ equipment_destroy: destroy_ctx }, 204)
+    destroy_ctx = Equipment.find(params[:id])
+    json_response({ message: 'Equipment succesfully deleted' }, 200) if destroy_ctx.destroy
+  end
+
+  private
+
+  def equipment_params
+    params.permit(:title, :description, :review, :date_reserved, :duration, :rent_fee, :total_amount_payable, :image)
   end
 end

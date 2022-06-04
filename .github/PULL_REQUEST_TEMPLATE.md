@@ -6,7 +6,7 @@ Thanks for taking the time to review the project. Here are some things important
 
 ### Changes implemented in this PR
 
-- [X] Solves #X (Specify the issue its being solve through this PR)
+- [X] Closes #X (Specify the issue its being solve through this PR)
 - [X] Implement additional features (Something you find important to point out that was not specified in the issue)
 
 ## Final notes -Reviewer
