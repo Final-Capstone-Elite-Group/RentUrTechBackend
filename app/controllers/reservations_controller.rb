@@ -12,7 +12,9 @@ class ReservationsController < ApplicationController
     json_response(context.message, context.status)
   end
 
-  def destroy; end
+  def destroy
+    
+  end
 
   private
 

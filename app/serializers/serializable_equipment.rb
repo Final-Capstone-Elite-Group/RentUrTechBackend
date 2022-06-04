@@ -7,15 +7,19 @@ class SerializableEquipment < JSONAPI::Serializable::Resource
              :created_at, :updated_at
 
   attribute :image do
-    return unless @object.image.attached?
+    modify_image
+  end
+
+  private
+
+  def modify_image
+    return unless @object&.image.attached?
 
     @object.image.blob.attributes
       .slice('filename', 'byte_size')
       .merge(url: image_url)
       .tap { |attrs| attrs['name'] = attrs.delete('filename') }
   end
-
-  private
 
   def image_url
     url_for(@object.image)

@@ -4,6 +4,9 @@ class EquipmentsController < ApplicationController
 
   def index
     ctx = Equipments::Index.call
+
+    return json_response(ctx[:errors], ctx[:status]) if ctx.failure?
+
     render jsonapi: ctx.equipments, class: { Equipment: SerializableEquipment }
   end
 
