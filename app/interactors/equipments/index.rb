@@ -3,6 +3,8 @@ class Equipments::Index
 
   def call
     context.equipments = query&.reorder(order)
+  rescue StandardError => e
+    handle_errors(e.message)
   end
 
   private
@@ -15,5 +17,9 @@ class Equipments::Index
     {
       created_at: :desc
     }
+  end
+
+  def handle_errors(message, status = 422)
+    context.fail!(errors: message, status:)
   end
 end
