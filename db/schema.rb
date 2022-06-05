@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_04_040821) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_04_012620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,15 +46,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_040821) do
     t.string "title"
     t.string "description"
     t.string "review"
-    t.datetime "date_reserved"
+    t.text "date_reserved", default: [], array: true
     t.integer "duration"
     t.decimal "rent_fee"
     t.decimal "total_amount_payable"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "reservation_id"
-    t.index ["reservation_id"], name: "index_equipment_on_reservation_id"
     t.index ["user_id"], name: "index_equipment_on_user_id"
   end
 
@@ -82,7 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_040821) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "equipment", "reservations"
   add_foreign_key "equipment", "users"
   add_foreign_key "reservations", "equipment"
   add_foreign_key "reservations", "users"
