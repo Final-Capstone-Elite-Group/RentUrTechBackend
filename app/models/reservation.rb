@@ -10,7 +10,11 @@ class Reservation < ApplicationRecord
 
   def date_available?
     equipment&.dates_reserved&.each do |date|
-      if date.to_datetime >= reserved_date.to_datetime && date.to_datetime < reserved_date.to_datetime + equipment.duration.days
+      date_datetime = date.to_datetime
+      reserved_datetime = reserved_date.to_datetime
+      reserved_date_plus_duration = reserved_datetime + equipment.duration.days
+
+      if date_datetime >= reserved_datetime && date_datetime < reserved_date_plus_duration
         errors.add(:reserved_date, 'is already taken')
       end
     end

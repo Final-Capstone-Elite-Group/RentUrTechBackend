@@ -26,8 +26,9 @@ class Reservations::Create
 
   def update_equipment!
     return if @reservation.nil?
+
     equipment = Equipment.find(context.params[:equipment_id])
-    equipment&.dates_reserved.push(@reservation.reserved_date.to_datetime)
+    equipment&.dates_reserved&.push(@reservation&.reserved_date&.to_datetime)
     equipment.save!
   end
 
