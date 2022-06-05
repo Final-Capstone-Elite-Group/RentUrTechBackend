@@ -20,7 +20,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022,6,5,4,5,6),
+          reserved_date: DateTime.new(2022, 6, 5, 4, 5, 6),
           city: 'New York',
           equipment_id: equipment.id
         }
@@ -48,7 +48,7 @@ RSpec.describe ReservationsController, type: :controller do
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(422)
-        expect(json_response['errors']).to eq("Validation failed: Reserved date is already taken")
+        expect(json_response['errors']).to eq('Validation failed: Reserved date is already taken')
       end
     end
   end
