@@ -13,7 +13,7 @@ class SerializableEquipment < JSONAPI::Serializable::Resource
   private
 
   def modify_image
-    return unless @object&.image.attached?
+    return unless @object&.image&.attached?
 
     @object.image.blob.attributes
       .slice('filename', 'byte_size')
