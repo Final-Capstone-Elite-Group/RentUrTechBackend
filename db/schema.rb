@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_012620) do
     t.integer "duration"
     t.decimal "rent_fee"
     t.decimal "total_amount_payable"
+    t.string "url"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
