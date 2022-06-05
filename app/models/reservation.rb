@@ -2,8 +2,6 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :equipment
 
-  after_create
-
   validate :date_available?
 
   private
