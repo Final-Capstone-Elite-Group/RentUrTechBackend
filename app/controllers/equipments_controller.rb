@@ -5,12 +5,18 @@ class EquipmentsController < ApplicationController
   def index
     ctx = Equipments::Index.call
 
-    return json_response(ctx[:errors], ctx[:status]) if ctx.failure?
+    return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
 
     render jsonapi: ctx.equipments, class: { Equipment: SerializableEquipment }
   end
 
-  def show; end
+  def show
+    ctx = Equipments::Show.call(params:)
+
+    return json_response({ error: ctx[:error] }, ctx[:status]) if ctx.failure?
+
+    render jsonapi: ctx.equipment, class: { Equipment: SerializableEquipment }
+  end
 
   def create
     ctx = Equipments::Create.call({
