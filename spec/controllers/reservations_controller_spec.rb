@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ReservationsController, type: :controller do
   describe 'POST #create' do
     let!(:user) { create(:user) }
-    let!(:equipment) { create(:equipment) }
-    let!(:reserved_equipment) { create(:equipment, dates_reserved: [DateTime.new(2022, 6, 5, 4, 5, 6)]) }
+    let!(:equipment) { create(:equipment, duration: 1) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.new(2022, 6, 5, 4, 5, 6)]) }
 
     let(:params) do
       {
@@ -21,7 +21,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022, 6, 6, 4, 5, 6),
+          reserved_date: DateTime.new(2022, 6, 7, 4, 5, 6),
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
