@@ -10,7 +10,7 @@ class Reservations::Index
   private
 
   def query
-     @reservations = context.params[:user].reservations.includes(:equipment)
+    @reservations = context.params[:user].reservations.includes(:equipment)
   end
 
   def order

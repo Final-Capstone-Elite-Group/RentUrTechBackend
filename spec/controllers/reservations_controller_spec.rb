@@ -90,13 +90,15 @@ RSpec.describe ReservationsController, type: :controller do
         get(:index)
         json_response = JSON.parse(response.body)
 
+        total = json_response['data'].last['attributes']['total'].to_f
+        city = json_response['data'].last['attributes']['city']
+
         expect(response.status).to eq(200)
         expect(json_response['data'].length).to eq(10)
         expect(json_response['data'].last['attributes']['id']).to eq(user.reservations.order(created_at: :desc).last.id)
-        expect(json_response['data'].last['attributes']['total'].to_f).to eq(user.reservations.order(created_at: :desc).last.total)
-        expect(json_response['data'].last['attributes']['city']).to eq(user.reservations.order(created_at: :desc).last.city)
+        expect(total).to eq(user.reservations.order(created_at: :desc).last.total)
+        expect(city).to eq(user.reservations.order(created_at: :desc).last.city)
       end
     end
   end
-
 end
