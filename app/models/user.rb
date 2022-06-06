@@ -8,7 +8,9 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :username, uniqueness: true
+  validates :username, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :password, length: { minimum: 6 }
 
   enum role: {
     user: 'user',
