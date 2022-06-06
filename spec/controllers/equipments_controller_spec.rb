@@ -18,7 +18,29 @@ RSpec.describe EquipmentsController, type: :controller do
 
   describe 'GET #show' do
     context 'should return the equipment from id' do
-      # raise NotImplementedError
+      let!(:equipment) { create(:equipment) }
+
+      let(:params) do
+        {
+          id: equipment.id
+        }
+      end
+
+      it 'success' do
+        get(:show, params:)
+        json_response = JSON.parse(response.body)
+
+        expect(response.status).to eq(200)
+        expect(json_response['data']['attributes']['id']).to eq(equipment.id)
+        expect(json_response['data']['attributes']['title']).to eq(equipment.title)
+        expect(json_response['data']['attributes']['description']).to eq(equipment.description)
+      end
+
+      it 'fails' do
+        get(:show, params: { id: -1 })
+
+        expect(response.status).to eq(404)
+      end
     end
   end
 
