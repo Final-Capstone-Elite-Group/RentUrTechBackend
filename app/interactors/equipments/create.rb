@@ -6,23 +6,31 @@ class Equipments::Create
   end
 
   def call
+    sanitize_params
     create_equipment!
-    validate_equipment!
+  rescue StandardError => e
+    handle_errors(e.message)
   end
 
   private
 
-  def create_equipment!
-    @equipment = Equipment.new(context.equipment_params) if context.equipment_params
+  def sanitize_params
+    context.equipment_params.tap do |hash|
+      hash[:user] = user
+    end
   end
 
-  def validate_equipment!
-    if @equipment.save
-      context.message = @equipment
-      context.status = 201
-    else
-      context.message = { errors: @equipment.errors.full_messages }
-      context.status = 400
-    end
+  def user
+    context.user if context.user[:role] == 'admin'
+  end
+
+  def create_equipment!
+    context.message = Equipment.create!(context.equipment_params) if context.equipment_params
+
+    context.status = 201
+  end
+
+  def handle_errors(message, status = 422)
+    context.fail!(errors: message, status:)
   end
 end

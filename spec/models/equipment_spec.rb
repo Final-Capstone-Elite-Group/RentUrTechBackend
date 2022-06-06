@@ -54,12 +54,6 @@ RSpec.describe Reservation, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'should have a date reserved' do
-      subject.date_reserved = nil
-
-      expect(subject).to_not be_valid
-    end
-
     it 'should have a duration of the rent' do
       subject.duration = nil
 

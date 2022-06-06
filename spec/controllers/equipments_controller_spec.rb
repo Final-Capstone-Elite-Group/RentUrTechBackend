@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe EquipmentsController, type: :request do
+RSpec.describe EquipmentsController, type: :controller do
   describe 'GET #index' do
     let!(:equipments) { create_list(:equipment, 10) }
 
     context 'should return all equipments' do
       it 'success' do
-        get(equipments_path)
+        get(:index)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(200)
@@ -23,8 +23,8 @@ RSpec.describe EquipmentsController, type: :request do
   end
 
   describe 'POST create' do
-    let!(:user) { create(:user) }
-    let!(:auth_response) { Auth::AuthenticateUser.new(user.username, user.password).call }
+    let!(:user) { create(:user, role: :admin) }
+
     let(:params) do
       {
         title: FFaker::Lorem.characters(10),
@@ -40,7 +40,8 @@ RSpec.describe EquipmentsController, type: :request do
 
     context 'Create an equipment' do
       it 'should be successful if proper parameters are sent' do
-        post(equipments_path, params:, headers: { 'Authorization' => auth_response[:message][:auth_token] })
+        request.headers.merge(valid_headers)
+        post(:create, params:)
         json_response = JSON.parse(response.body)
         equipment_db = Equipment.last
 
@@ -53,19 +54,21 @@ RSpec.describe EquipmentsController, type: :request do
 
       it 'should fail if unproper parameters are sent' do
         params[:title] = nil
-        post(equipments_path, params:, headers: { 'Authorization' => auth_response[:message][:auth_token] })
-        json_response = JSON.parse(response.body)
+        request.headers.merge(valid_headers)
+        post(:create, params:)
 
-        expect(response.status).to eq(400)
-        expect(json_response['errors'].count).to eq(2)
-        expect(json_response['errors']).to include("Title can't be blank")
-        expect(json_response['errors']).to include('Title is too short (minimum is 3 characters)')
+        expect(response.status).to eq(422)
+        expect(response.body).to include("Title can't be blank")
+        expect(response.body).to include('Title is too short (minimum is 3 characters)')
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment) }
+    let!(:another_equipment) { create(:equipment) }
+
     let(:params) do
       {
         id: equipment.id
@@ -74,12 +77,14 @@ RSpec.describe EquipmentsController, type: :request do
 
     context 'should delete one equipment' do
       it 'success' do
-        delete(equipment_path(id: params[:id]), params:)
+        request.headers.merge(valid_headers)
+        delete(:destroy, params:)
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(200)
         expect(json_response['message']).to eq('Equipment succesfully deleted')
-        expect(Equipment.all).to eq([])
+        expect(Equipment.all.count).to eq(1)
+        expect(Equipment.first.id).to eq(another_equipment[:id])
       end
     end
   end
