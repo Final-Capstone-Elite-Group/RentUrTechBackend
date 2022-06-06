@@ -3,7 +3,6 @@ FactoryBot.define do
     title { FFaker::Lorem.characters(10) }
     description { FFaker::Lorem.characters(200) }
     review { FFaker::Lorem.word }
-    date_reserved { Date.today }
     duration { FFaker::Random.rand(60) }
     rent_fee { FFaker::Random.rand(1000) }
     total_amount_payable { FFaker::Random.rand(1000) }
