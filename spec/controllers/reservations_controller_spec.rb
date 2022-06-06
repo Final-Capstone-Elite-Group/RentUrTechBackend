@@ -79,4 +79,24 @@ RSpec.describe ReservationsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #Index' do
+    let!(:user) { create(:user) }
+    let!(:reservations) { create_list(:reservation, 10, user:) }
+
+    context 'should retrieve all the reservations for the current user' do
+      it 'success' do
+        request.headers.merge(valid_headers)
+        get(:index)
+        json_response = JSON.parse(response.body)
+
+        expect(response.status).to eq(200)
+        expect(json_response['data'].length).to eq(10)
+        expect(json_response['data'].last['attributes']['id']).to eq(user.reservations.order(created_at: :desc).last.id)
+        expect(json_response['data'].last['attributes']['total'].to_f).to eq(user.reservations.order(created_at: :desc).last.total)
+        expect(json_response['data'].last['attributes']['city']).to eq(user.reservations.order(created_at: :desc).last.city)
+      end
+    end
+  end
+
 end
