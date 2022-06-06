@@ -65,7 +65,7 @@ RSpec.describe EquipmentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:user) { create(:user) }
+    let!(:user) { create(:user, role: :admin) }
     let!(:equipment) { create(:equipment) }
     let!(:another_equipment) { create(:equipment) }
 

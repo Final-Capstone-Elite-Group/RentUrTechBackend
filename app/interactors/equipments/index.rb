@@ -10,7 +10,7 @@ class Equipments::Index
   private
 
   def query
-    @equipments = Equipment.all
+    @equipments = Equipment.all.with_attached_image
   end
 
   def order

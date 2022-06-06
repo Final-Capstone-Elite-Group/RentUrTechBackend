@@ -18,12 +18,14 @@ class EquipmentsController < ApplicationController
                                     user: @current_user
                                   })
 
-    return json_response(ctx[:errors], ctx[:status]) if ctx.failure?
+    return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
 
     render jsonapi: ctx[:message], status: ctx[:status], class: { Equipment: SerializableEquipment }
   end
 
   def destroy
+    return json_response({ error: 'Unauthorized user' }, 401) unless @current_user.role == 'admin'
+
     destroy_ctx = Equipment.find(params[:id])
     json_response({ message: 'Equipment succesfully deleted' }, 200) if destroy_ctx.destroy
   end
