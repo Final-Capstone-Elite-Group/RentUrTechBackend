@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_012620) do
     t.string "title"
     t.string "description"
     t.string "review"
-    t.datetime "date_reserved"
+    t.text "dates_reserved", default: [], array: true
     t.integer "duration"
     t.decimal "rent_fee"
     t.decimal "total_amount_payable"

@@ -31,6 +31,6 @@ class EquipmentsController < ApplicationController
   private
 
   def equipment_params
-    params.permit(:title, :description, :review, :date_reserved, :duration, :rent_fee, :total_amount_payable, :image)
+    params.permit(:title, :description, :review, :duration, :rent_fee, :total_amount_payable, :image)
   end
 end

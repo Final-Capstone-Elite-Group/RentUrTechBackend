@@ -6,7 +6,10 @@ class Reservations::Create
   end
 
   def call
-    create_reservation!
+    ActiveRecord::Base.transaction do
+      create_reservation!
+      update_equipment!
+    end
   rescue StandardError => e
     handle_errors(e.message)
   end
@@ -15,10 +18,18 @@ class Reservations::Create
 
   def create_reservation!
     if context.reservations_params
-      context.message = Reservation.create!(context.reservations_params.merge(user_id: context.user.id))
+      @reservation = Reservation.create!(context.reservations_params.merge(user_id: context.user.id))
     end
-
+    context.message = @reservation
     context.status = 200
+  end
+
+  def update_equipment!
+    return if @reservation.nil?
+
+    equipment = Equipment.find(context.params[:equipment_id])
+    equipment&.dates_reserved&.push(@reservation&.reserved_date&.to_datetime)
+    equipment.save!
   end
 
   def handle_errors(message)
