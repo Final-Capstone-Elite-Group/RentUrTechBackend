@@ -1,7 +1,13 @@
 class ReservationsController < ApplicationController
   include Response
 
-  def index; end
+  def index
+    ctx = Reservations::Index.call({ params: { user: @current_user } })
+
+    return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
+
+    render jsonapi: ctx.reservations, class: { Reservation: SerializableReservation }
+  end
 
   def create
     context = Reservations::Create.call({

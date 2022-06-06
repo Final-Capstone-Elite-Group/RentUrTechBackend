@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ReservationsController, type: :controller do
   describe 'POST #create' do
     let!(:user) { create(:user) }
-    let!(:equipment) { create(:equipment) }
-    let!(:reserved_equipment) { create(:equipment, dates_reserved: [DateTime.new(2022, 6, 5, 4, 5, 6)]) }
+    let!(:equipment) { create(:equipment, duration: 1) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.new(2022, 6, 5, 4, 5, 6)]) }
 
     let(:params) do
       {
@@ -21,7 +21,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022, 6, 6, 4, 5, 6),
+          reserved_date: DateTime.new(2022, 6, 7, 4, 5, 6),
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
@@ -115,6 +115,28 @@ RSpec.describe ReservationsController, type: :controller do
         expect(response.status).to eq(422)
         expect(json_response['data']).to eq('Not allowed to destroy this Reservation')
         expect(Reservation.all.count).to eq(2)
+      end
+    end
+  end
+
+  describe 'GET #Index' do
+    let!(:user) { create(:user) }
+    let!(:reservations) { create_list(:reservation, 10, user:) }
+
+    context 'should retrieve all the reservations for the current user' do
+      it 'success' do
+        request.headers.merge(valid_headers)
+        get(:index)
+        json_response = JSON.parse(response.body)
+
+        total = json_response['data'].last['attributes']['total'].to_f
+        city = json_response['data'].last['attributes']['city']
+
+        expect(response.status).to eq(200)
+        expect(json_response['data'].length).to eq(10)
+        expect(json_response['data'].last['attributes']['id']).to eq(user.reservations.order(created_at: :desc).last.id)
+        expect(total).to eq(user.reservations.order(created_at: :desc).last.total)
+        expect(city).to eq(user.reservations.order(created_at: :desc).last.city)
       end
     end
   end

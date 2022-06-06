@@ -1,5 +1,5 @@
 class Equipment < ApplicationRecord
-  after_commit :actions_after_create
+  after_create_commit :actions_after_create
 
   belongs_to :user
   has_many :reservations, dependent: :destroy
