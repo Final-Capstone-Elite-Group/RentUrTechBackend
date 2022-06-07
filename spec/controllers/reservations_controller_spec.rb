@@ -122,9 +122,11 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         delete(:destroy, params:)
         json_response = JSON.parse(response.body)
+        equipment_of_destroyed_reservation = equipment.reload!
 
         expect(response.status).to eq(200)
         expect(json_response['data']).to eq('Reservation destroyed successfully')
+        expect(equipment_of_destroyed_reservation.dates_reserved.includes(reserved_date)).to eq(false)
         expect(Reservation.all.count).to eq(1)
         expect(Reservation.last.id).to eq(another_reservation.id)
       end
