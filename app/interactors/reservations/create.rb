@@ -9,7 +9,6 @@ class Reservations::Create
   def call
     ActiveRecord::Base.transaction do
       create_reservation!
-      update_equipment!
     end
   rescue StandardError => e
     handle_errors(e.message)
@@ -29,14 +28,6 @@ class Reservations::Create
 
     context.message = @reservation
     context.status = 200
-  end
-
-  def update_equipment!
-    return if @reservation.nil?
-
-    equipment = Equipment.find(context.params[:equipment_id])
-    equipment.dates_reserved.push(@reservation.reserved_date.to_datetime.change(usec: 0))
-    equipment.save!
   end
 
   def handle_errors(message)

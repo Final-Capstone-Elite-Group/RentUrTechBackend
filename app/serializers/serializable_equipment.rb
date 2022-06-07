@@ -3,10 +3,14 @@ class SerializableEquipment < JSONAPI::Serializable::Resource
 
   type 'equipment'
 
-  attributes :id, :title, :description, :review, :dates_reserved, :duration, :rent_fee, :total_amount_payable,
+  attributes :id, :title, :description, :review, :duration, :rent_fee, :total_amount_payable,
              :created_at, :updated_at
 
   attribute :image do
     { url: @object.url }
+  end
+
+  attribute :dates_reserved do
+    @object.dates_reserved
   end
 end

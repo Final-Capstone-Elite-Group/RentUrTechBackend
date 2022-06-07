@@ -26,7 +26,8 @@ RSpec.describe ReservationsController, type: :controller do
   describe 'POST #create' do
     let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment, duration: 1) }
-    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.now + 1.days]) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1) }
+    let!(:reservation){ create(:reservation, reserved_date: DateTime.now + 1.days, equipment: reserved_equipment) }
 
     let(:params) do
       {

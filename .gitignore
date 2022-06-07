@@ -28,3 +28,5 @@
 /config/master.key
 
 json_responses/
+
+.byebug_history
