@@ -17,6 +17,10 @@ class Reservations::Create
   private
 
   def create_reservation!
+    if !!context.reservations_params[:reserved_date] && Time.zone.parse(context.reservations_params[:reserved_date]) < Time.zone.parse(DateTime.now.to_s)
+      raise "Can't reserved in the past"
+    end
+
     if context.reservations_params
       @reservation = Reservation.create!(context.reservations_params.merge(user_id: context.user.id))
     end
@@ -28,7 +32,7 @@ class Reservations::Create
     return if @reservation.nil?
 
     equipment = Equipment.find(context.params[:equipment_id])
-    equipment&.dates_reserved&.push(@reservation&.reserved_date&.to_datetime)
+    equipment.dates_reserved.push(@reservation.reserved_date.to_datetime)
     equipment.save!
   end
 

@@ -10,15 +10,17 @@ class Reservation < ApplicationRecord
   private
 
   def date_available?
+    return if reserved_date.nil?
+
     equipment&.dates_reserved&.each do |date|
       date_datetime = date.to_datetime
       reserved_datetime = reserved_date.to_datetime
-      previous_date_plus_duration = date_datetime + equipment.duration.days + 1.day
+      date_plus_duration_plus_1_day = date_datetime + equipment.duration.days + 1.day
       reserved_date_plus_duration = reserved_datetime + equipment.duration.days
 
-      if (previous_date_plus_duration > reserved_datetime && reserved_date_plus_duration > date_datetime) ||
+      if (reserved_datetime < date_plus_duration_plus_1_day && reserved_date_plus_duration > date_datetime) ||
          date_datetime == reserved_datetime
-        errors.add(:reserved_date, 'is already taken')
+        errors.add(:reserved_date, 'not available')
         return
       end
     end

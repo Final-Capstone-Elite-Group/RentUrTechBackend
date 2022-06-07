@@ -75,7 +75,7 @@ RSpec.describe ReservationsController, type: :controller do
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(422)
-        expect(json_response['errors']).to eq('Validation failed: Reserved date is already taken')
+        expect(json_response['errors']).to eq('Validation failed: Reserved date not available')
       end
     end
   end
