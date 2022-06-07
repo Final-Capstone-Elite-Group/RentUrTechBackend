@@ -1,16 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe ReservationsController, type: :controller do
+  describe 'GET #Index' do
+    let!(:user) { create(:user) }
+    let!(:reservations) { create_list(:reservation, 10, user:) }
+
+    context 'should retrieve all the reservations for the current user' do
+      it 'success' do
+        request.headers.merge(valid_headers)
+        get(:index)
+        json_response = JSON.parse(response.body)
+
+        total = json_response['data'].last['attributes']['total'].to_f
+        city = json_response['data'].last['attributes']['city']
+
+        expect(response.status).to eq(200)
+        expect(json_response['data'].length).to eq(10)
+        expect(json_response['data'].last['attributes']['id']).to eq(user.reservations.order(created_at: :desc).last.id)
+        expect(total).to eq(user.reservations.order(created_at: :desc).last.total)
+        expect(city).to eq(user.reservations.order(created_at: :desc).last.city)
+      end
+    end
+  end
+
   describe 'POST #create' do
     let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment, duration: 1) }
-    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.new(2022, 6, 5, 4, 5, 6)]) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.now + 1.days]) }
 
     let(:params) do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022, 6, 5, 4, 5, 6),
+          reserved_date: DateTime.now + 1.days,
           city: 'New York',
           equipment_id: equipment.id
         }
@@ -21,7 +43,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022, 6, 7, 4, 5, 6),
+          reserved_date: DateTime.now + 3.days,
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
@@ -32,7 +54,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.new(2022, 6, 5, 4, 5, 6),
+          reserved_date: DateTime.now + 1.days,
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
@@ -45,6 +67,8 @@ RSpec.describe ReservationsController, type: :controller do
         post(:create, params:)
         json_response = JSON.parse(response.body)
         equipment = Equipment.find(json_response['equipment_id'])
+        reserved_date_zoned = Time.zone.parse(equipment.dates_reserved.first.to_s)
+        requested_date_zoned = Time.zone.parse(params[:reservation][:reserved_date].to_s)
 
         expect(response.status).to eq(200)
         expect(json_response['total'].to_f).to eq(params[:reservation][:total])
@@ -52,7 +76,7 @@ RSpec.describe ReservationsController, type: :controller do
         expect(json_response['equipment_id']).to eq(params[:reservation][:equipment_id])
         expect(json_response['user_id']).to eq(user.id)
         expect(equipment.dates_reserved.count).to eq(1)
-        expect(equipment.dates_reserved.first.to_datetime).to eq(params[:reservation][:reserved_date].to_datetime)
+        expect(reserved_date_zoned).to eq(requested_date_zoned)
       end
     end
 
@@ -115,28 +139,6 @@ RSpec.describe ReservationsController, type: :controller do
         expect(response.status).to eq(422)
         expect(json_response['data']).to eq('Not allowed to destroy this Reservation')
         expect(Reservation.all.count).to eq(2)
-      end
-    end
-  end
-
-  describe 'GET #Index' do
-    let!(:user) { create(:user) }
-    let!(:reservations) { create_list(:reservation, 10, user:) }
-
-    context 'should retrieve all the reservations for the current user' do
-      it 'success' do
-        request.headers.merge(valid_headers)
-        get(:index)
-        json_response = JSON.parse(response.body)
-
-        total = json_response['data'].last['attributes']['total'].to_f
-        city = json_response['data'].last['attributes']['city']
-
-        expect(response.status).to eq(200)
-        expect(json_response['data'].length).to eq(10)
-        expect(json_response['data'].last['attributes']['id']).to eq(user.reservations.order(created_at: :desc).last.id)
-        expect(total).to eq(user.reservations.order(created_at: :desc).last.total)
-        expect(city).to eq(user.reservations.order(created_at: :desc).last.city)
       end
     end
   end
