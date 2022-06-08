@@ -109,7 +109,8 @@ RSpec.describe ReservationsController, type: :controller do
     let!(:another_user) { create(:user) }
     let!(:equipment) { create(:equipment) }
     let!(:reservation) { create(:reservation, equipment:, user:) }
-    let!(:another_reservation) { create(:reservation) }
+    let!(:another_reservation) { create(:reservation, reserved_date: DateTime.now + 2.days) }
+    let!(:pushing_into_equipment) { Equipment.first.update!(dates_reserved: [reservation.reserved_date, another_reservation.reserved_date])}
 
     let(:params) do
       {
@@ -122,11 +123,11 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         delete(:destroy, params:)
         json_response = JSON.parse(response.body)
-        equipment_of_destroyed_reservation = equipment.reload!
+        equipment_of_destroyed_reservation = equipment.reload
 
         expect(response.status).to eq(200)
         expect(json_response['data']).to eq('Reservation destroyed successfully')
-        expect(equipment_of_destroyed_reservation.dates_reserved.includes(reserved_date)).to eq(false)
+        expect(equipment_of_destroyed_reservation.dates_reserved.include?(reservation.reserved_date)).to eq(false)
         expect(Reservation.all.count).to eq(1)
         expect(Reservation.last.id).to eq(another_reservation.id)
       end

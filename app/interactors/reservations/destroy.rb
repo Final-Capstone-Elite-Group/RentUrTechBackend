@@ -33,8 +33,9 @@ class Reservations::Destroy
   end
 
   def remove_date_from_equipment!
-    all_dates = context.reservation_to_destroy.equipment&.pluck(:dates_reserved)
-    all_dates =- context.reservation_to_destroy.reserved_date
+    all_dates = context.reservation_to_destroy.equipment.dates_reserved
+    all_dates -= [context.reservation_to_destroy.reserved_date.to_s]
+
     context.reservation_to_destroy.equipment.update!(dates_reserved: all_dates)
   end
 
