@@ -19,8 +19,8 @@ class Reservations::Create
   private
 
   def validate_reservation!
-    reserved_date_time_zoned = Time.zone.parse(context.reserved_date.sub(/:\d+\.\d+-\d+:\d+/, ''))
-    date_now_time_zoned = Time.zone.parse(Time.now.strftime('%Y-%m-%d %H:%M'))
+    reserved_date_time_zoned = Time.zone.parse(context.reserved_date)
+    date_now_time_zoned = Time.zone.parse(Time.now.strftime('%Y-%m-%d'))
 
     raise "Can't reserved in the past" if context.reserved_date && reserved_date_time_zoned < date_now_time_zoned
   end
@@ -38,7 +38,8 @@ class Reservations::Create
     return if @reservation.nil?
 
     equipment = Equipment.find(context.params[:equipment_id])
-    equipment.dates_reserved.push(@reservation.reserved_date.to_datetime.change(usec: 0))
+    equipment.dates_reserved.push(context.reserved_date)
+
     equipment.save!
   end
 

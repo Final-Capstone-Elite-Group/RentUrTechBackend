@@ -26,13 +26,13 @@ RSpec.describe ReservationsController, type: :controller do
   describe 'POST #create' do
     let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment, duration: 1) }
-    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [DateTime.now + 1.days]) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [Time.now.strftime('%Y-%m-%d')]) }
 
     let(:params) do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.now + 1.days,
+          reserved_date: Time.now.strftime('%Y-%m-%d'),
           city: 'New York',
           equipment_id: equipment.id
         }
@@ -43,7 +43,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.now + 3.days,
+          reserved_date: (Time.now + 3.days).strftime('%Y-%m-%d'),
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
@@ -54,7 +54,7 @@ RSpec.describe ReservationsController, type: :controller do
       {
         reservation: {
           total: 200,
-          reserved_date: DateTime.now + 1.days,
+          reserved_date: Time.now.strftime('%Y-%m-%d'),
           city: 'New York',
           equipment_id: reserved_equipment.id
         }
@@ -82,6 +82,7 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         post(:create, params: params2)
         json_response = JSON.parse(response.body)
+
         equipment = Equipment.find(json_response['equipment_id'])
 
         expect(response.status).to eq(200)
@@ -106,7 +107,7 @@ RSpec.describe ReservationsController, type: :controller do
     let!(:another_user) { create(:user) }
     let!(:equipment) { create(:equipment) }
     let!(:reservation) { create(:reservation, equipment:, user:) }
-    let!(:another_reservation) { create(:reservation, reserved_date: DateTime.now + 2.days) }
+    let!(:another_reservation) { create(:reservation, reserved_date: (Time.now + 2.days).strftime('%Y-%m-%d')) }
     let!(:pushing_into_equipment) do
       Equipment.first.update!(dates_reserved: [reservation.reserved_date, another_reservation.reserved_date])
     end
