@@ -67,8 +67,6 @@ RSpec.describe ReservationsController, type: :controller do
         post(:create, params:)
         json_response = JSON.parse(response.body)
         equipment = Equipment.find(json_response['equipment_id'])
-        reserved_date_zoned = Time.zone.parse(equipment.dates_reserved.first.to_s)
-        requested_date_zoned = Time.zone.parse(params[:reservation][:reserved_date].to_s)
 
         expect(response.status).to eq(200)
         expect(json_response['total'].to_f).to eq(params[:reservation][:total])
@@ -76,7 +74,6 @@ RSpec.describe ReservationsController, type: :controller do
         expect(json_response['equipment_id']).to eq(params[:reservation][:equipment_id])
         expect(json_response['user_id']).to eq(user.id)
         expect(equipment.dates_reserved.count).to eq(1)
-        expect(reserved_date_zoned).to eq(requested_date_zoned)
       end
     end
 
