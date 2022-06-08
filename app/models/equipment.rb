@@ -1,4 +1,6 @@
 class Equipment < ApplicationRecord
+  after_create_commit :actions_after_create
+
   belongs_to :user
   has_many :reservations, dependent: :destroy
   has_one_attached :image
@@ -10,4 +12,14 @@ class Equipment < ApplicationRecord
   validates :rent_fee, presence: true
   validates :total_amount_payable, presence: true
   validates :image, presence: true
+
+  private
+
+  def actions_after_create
+    update_columns(url: image_url)
+  end
+
+  def image_url
+    url_for(image)
+  end
 end
