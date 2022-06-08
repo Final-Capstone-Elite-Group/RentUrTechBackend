@@ -34,7 +34,7 @@ class Reservations::Destroy
 
   def remove_date_from_equipment!
     all_dates = context.reservation_to_destroy.equipment.dates_reserved
-    all_dates -= [context.reservation_to_destroy.reserved_date.to_s]
+    all_dates -= [context.reservation_to_destroy.reserved_date.strftime('%Y-%m-%d')]
 
     context.reservation_to_destroy.equipment.update!(dates_reserved: all_dates)
   end
