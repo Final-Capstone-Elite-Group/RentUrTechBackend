@@ -6,7 +6,10 @@ class Reservations::Destroy
   end
 
   def call
-    destroy_reservation!
+    ActiveRecord::Base.transaction do
+      destroy_reservation!
+      remove_date_from_equipment!
+    end
   rescue StandardError => e
     handle_errors(e.message)
   end
@@ -27,6 +30,13 @@ class Reservations::Destroy
 
   def valid_to_destroy?
     context.reservation_to_destroy && context.reservation_to_destroy.user.id == context.user.id
+  end
+
+  def remove_date_from_equipment!
+    all_dates = context.reservation_to_destroy.equipment.dates_reserved
+    all_dates -= [context.reservation_to_destroy.reserved_date.to_s]
+
+    context.reservation_to_destroy.equipment.update!(dates_reserved: all_dates)
   end
 
   def handle_errors(message)

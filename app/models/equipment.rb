@@ -13,10 +13,6 @@ class Equipment < ApplicationRecord
   validates :total_amount_payable, presence: true
   validates :image, presence: true
 
-  def dates_reserved
-    reservations.pluck(:reserved_date)
-  end
-
   private
 
   def actions_after_create
