@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def create
     context = Users::Create.call(params: user_params)
-    render json: context.message, :except => [:password_digest], status: context.status
+    render json: context.message, except: [:password_digest], status: context.status
   end
 
   def show; end

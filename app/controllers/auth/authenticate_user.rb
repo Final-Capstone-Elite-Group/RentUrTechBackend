@@ -11,6 +11,7 @@ class Auth::AuthenticateUser
     if auth_token
       return {
         message: {
+          user: user.slice('id', 'role', 'name', 'username'),
           auth_token:
         },
         status: 200
