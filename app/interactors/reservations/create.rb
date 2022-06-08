@@ -19,7 +19,6 @@ class Reservations::Create
   private
 
   def validate_reservation!
-    byebug
     reserved_date_time_zoned = Time.zone.parse(context.reserved_date)
     date_now_time_zoned = Time.zone.parse(DateTime.now.to_s)
 
