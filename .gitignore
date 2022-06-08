@@ -10,7 +10,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
-!/tmp/development_secret.txt
 !/log/.keep
 !/tmp/.keep
 
