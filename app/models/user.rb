@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :reservations, dependent: :destroy
-  has_many :equipments
+  has_many :equipments, dependent: :destroy
 
   has_one_attached :image
 

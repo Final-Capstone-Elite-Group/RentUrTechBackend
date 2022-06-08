@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Reservation, type: :model do
+RSpec.describe Equipment, type: :model do
   before :all do
     Equipment.destroy_all
   end

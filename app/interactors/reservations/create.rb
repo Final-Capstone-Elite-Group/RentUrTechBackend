@@ -9,6 +9,7 @@ class Reservations::Create
   def call
     ActiveRecord::Base.transaction do
       validate_reservation!
+      sanitize_params!
       create_reservation!
       update_equipment!
     end
@@ -18,11 +19,18 @@ class Reservations::Create
 
   private
 
+  ## Transforms date to UTC so no hour is stored in the database
+
+  def sanitize_params!
+    context.reservations_params[:reserved_date] = Time.zone.parse(context.reserved_date).strftime('%Y-%m-%d')
+    context.reserved_date = context.reservations_params[:reserved_date]
+  end
+
   def validate_reservation!
     reserved_date_time_zoned = Time.zone.parse(context.reserved_date)
     date_now_time_zoned = Time.zone.parse(Time.now.strftime('%Y-%m-%d'))
 
-    raise "Can't reserved in the past" if context.reserved_date && reserved_date_time_zoned < date_now_time_zoned
+    raise "Can't be reserved in the past" if context.reserved_date && reserved_date_time_zoned < date_now_time_zoned
   end
 
   def create_reservation!
