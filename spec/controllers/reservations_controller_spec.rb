@@ -110,7 +110,9 @@ RSpec.describe ReservationsController, type: :controller do
     let!(:equipment) { create(:equipment) }
     let!(:reservation) { create(:reservation, equipment:, user:) }
     let!(:another_reservation) { create(:reservation, reserved_date: DateTime.now + 2.days) }
-    let!(:pushing_into_equipment) { Equipment.first.update!(dates_reserved: [reservation.reserved_date, another_reservation.reserved_date])}
+    let!(:pushing_into_equipment) do
+      Equipment.first.update!(dates_reserved: [reservation.reserved_date, another_reservation.reserved_date])
+    end
 
     let(:params) do
       {
