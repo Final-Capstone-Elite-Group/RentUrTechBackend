@@ -66,6 +66,22 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    aws-eventstream (1.2.0)
+    aws-partitions (1.598.0)
+    aws-sdk-core (3.131.1)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.525.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1, >= 1.6.1)
+    aws-sdk-kms (1.57.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.114.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.4)
+    aws-sigv4 (1.5.0)
+      aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
     bootsnap (1.12.0)
       msgpack (~> 1.2)
@@ -93,6 +109,7 @@ GEM
     io-console (0.5.11)
     irb (1.4.1)
       reline (>= 0.3.0)
+    jmespath (1.6.1)
     jsonapi-deserializable (0.2.0)
     jsonapi-parser (0.1.1)
     jsonapi-rails (0.4.0)
@@ -201,6 +218,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  aws-sdk-s3
   bcrypt (~> 3.1.7)
   bootsnap
   byebug
