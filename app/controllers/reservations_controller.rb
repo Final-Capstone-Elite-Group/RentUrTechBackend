@@ -18,7 +18,16 @@ class ReservationsController < ApplicationController
     json_response(context.message, context.status)
   end
 
-  def destroy; end
+  def destroy
+    reservation = Reservation.find(params[:id])
+
+    context = Reservations::Destroy.call({
+                                           reservation:,
+                                           user: @current_user
+                                         })
+
+    json_response(context.message, context.status)
+  end
 
   private
 

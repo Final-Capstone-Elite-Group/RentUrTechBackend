@@ -7,6 +7,7 @@ FactoryBot.define do
     rent_fee { FFaker::Random.rand(1000) }
     total_amount_payable { FFaker::Random.rand(1000) }
     user { association :user }
+    dates_reserved { [] }
     image { Rack::Test::UploadedFile.new('spec/assets/test.png', 'image/png') }
   end
 end

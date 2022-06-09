@@ -3,25 +3,10 @@ class SerializableEquipment < JSONAPI::Serializable::Resource
 
   type 'equipment'
 
-  attributes :id, :title, :description, :review, :dates_reserved, :duration, :rent_fee, :total_amount_payable,
+  attributes :id, :title, :description, :review, :duration, :rent_fee, :dates_reserved, :total_amount_payable,
              :created_at, :updated_at
 
   attribute :image do
-    modify_image
-  end
-
-  private
-
-  def modify_image
-    return unless @object.image.attached?
-
-    @object.image.blob.attributes
-      .slice('filename', 'byte_size')
-      .merge(url: image_url)
-      .tap { |attrs| attrs['name'] = attrs.delete('filename') }
-  end
-
-  def image_url
-    url_for(@object.image)
+    { url: @object.url }
   end
 end
