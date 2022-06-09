@@ -2,7 +2,7 @@
 ![](https://img.shields.io/static/v1?label=BY&message=LeonardoAlbornoz&color=purple)
 ![](https://img.shields.io/static/v1?label=BY&message=JoseAbel&color=green)
 ![](https://img.shields.io/static/v1?label=BY&message=NicolasGonzales&color=yellow)
-![](https://img.shields.io/static/v1?label=BY&message=ZeeshanHaider&color=navyblue)
+![](https://img.shields.io/static/v1?label=BY&message=ZeeshanHaider&color=red)
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 ## RentUrTech API
