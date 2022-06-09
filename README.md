@@ -25,7 +25,7 @@ In order to work on this project, you need to have the following dependencies in
 
 ## Built With
 
-- Languages: _**Ruby 3.1.1**_
+- Languages: _**Ruby 3.1.2**_
 - Frameworks: _**Ruby On Rails**_
 - Technologies used: _**Visual Studio Code**_
 
