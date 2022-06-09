@@ -1,5 +1,8 @@
 ![](https://img.shields.io/static/v1?label=BY&message=JohnFTitor&color=blue)
-![](https://img.shields.io/static/v1?label=BY&message=JoseAbel&color=purple)
+![](https://img.shields.io/static/v1?label=BY&message=LeonardoAlbornoz&color=purple)
+![](https://img.shields.io/static/v1?label=BY&message=JoseAbel&color=green)
+![](https://img.shields.io/static/v1?label=BY&message=NicolasGonzales&color=yellow)
+![](https://img.shields.io/static/v1?label=BY&message=ZeeshanHaider&color=navyblue)
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 ## RentUrTech API
@@ -69,6 +72,8 @@ In the root folder to check the consistency of the app. Please don't make change
 
 ## Authors
 
+### Back-end Team
+
 :bust_in_silhouette: **Andrés Felipe Arroyave Naranjo**
 
  Platform | Badge |
@@ -81,8 +86,35 @@ In the root folder to check the consistency of the app. Please don't make change
 
  Platform | Badge |
  --- | --- |
- **GitHub**:   | [Jose Abel Ramirez](https://github.com/jose-Abel)
- **LinkedIn**: | [Jose Abel Ramirez Frontany](https://www.linkedin.com/in/joseabelramirezfrontany/)
+ **GitHub**   | [Jose Abel Ramirez](https://github.com/jose-Abel)
+ **LinkedIn** | [Jose Abel Ramirez Frontany](https://www.linkedin.com/in/joseabelramirezfrontany/)
+
+ ### Front-end Team
+
+
+ 👤 **Zeeshan Haider**
+
+  Platform | Badge |
+ --- | --- |
+ **GitHub**   | [@zhadier](https://github.com/zhadier)
+ **LinkedIn** | [Zeeshan Haider](https://www.linkedin.com/in/zhadier39/)
+
+ 👤 **Nicolas Gonzalez**
+
+   Platform | Badge |
+ --- | --- |
+ **GitHub**   | [@Nicolaswg](https://github.com/Nicolaswg)
+ **Twitter**   | [@Nicolas54146830](https://twitter.com/Nicolas54146830)
+ **LinkedIn** | [nicolas-gonzalez](https://www.linkedin.com/in/nicolas-gonzalez-8623461a0/)
+
+ 👤 **LeonardoAlbornoz**
+
+ Platform | Badge |
+ --- | --- |
+ **GitHub**:   | [@Leboroz](https://github.com/leboroz)
+ **Twitter**:  | [@Leboroz](https://twitter.com/leboroz)
+ **LinkedIn**: | [Leonardo Albornoz](https://linkedin.com/in/leboroz)
+
 
 ## 🤝 Contributing
 
