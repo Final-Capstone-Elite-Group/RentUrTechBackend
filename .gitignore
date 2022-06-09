@@ -31,3 +31,6 @@ json_responses/
 
 .byebug_history
 /config/credentials/production.key
+
+storage/*
+!storage/images
