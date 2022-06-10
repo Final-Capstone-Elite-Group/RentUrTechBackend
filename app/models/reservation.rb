@@ -20,7 +20,7 @@ class Reservation < ApplicationRecord
   end
 
   def outside_date?(date_in_datetime)
-    date_plus_duration_plus_1_day = date_in_datetime + equipment.duration.days + 1.day
+    date_plus_duration_plus_1_day = date_in_datetime + equipment.duration.days
 
     reserved_date < date_plus_duration_plus_1_day
   end

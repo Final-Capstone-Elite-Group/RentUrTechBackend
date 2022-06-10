@@ -179,8 +179,8 @@ oculus.image.attach(io: File.open('storage/images/oculus.jpg'), filename: 'oculu
 oculus.save!
 
 
-powerfull_pc = Equipment.new({
-  title: "Powerfull Pc",
+powerful_pc = Equipment.new({
+  title: "Powerful Pc",
   description: "✔ AMD Ryzen 5 3600 6-Core 12-Thread 3.6GHz (4.2 GHz Max Boost) CPU | 500GB SSD – Up to 30x faster than traditional HDD
   ✔ GeForce GTX 1660 Super 6GB GDDR6 Graphics Card (Brand May Varies) | 16GB DDR4 3000MHz Gaming Memory with Heat Spreaders | Windows 10 Home 64-bit | AMD High Performance Wraith Cooler
   ✔ 802.11AC Wi-Fi | No Bloatware | Graphics Ports may Vary | HD Audio and Mic | Free Gaming Keyboard and Mouse | 2 x USB 3.0, 2 x USB 2.0, 4 x USB 3.2 Gen1
@@ -192,9 +192,9 @@ powerfull_pc = Equipment.new({
   user: User.find_by(role: 'admin')
 })
 
-powerfull_pc.image.attach(io: File.open('storage/images/powerfullpc.jpg'), filename: 'powerfullpc.jpg', content_type: 'jpg')
+powerful_pc.image.attach(io: File.open('storage/images/powerfulpc.jpg'), filename: 'powerfulpc.jpg', content_type: 'jpg')
 
-powerfull_pc.save!
+powerful_pc.save!
 
 
 precision_cooker = Equipment.new({

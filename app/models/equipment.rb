@@ -3,7 +3,7 @@ class Equipment < ApplicationRecord
 
   belongs_to :user
   has_many :reservations, dependent: :destroy
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 3, maximum: 25 }
   validates :description, presence: true, length: { minimum: 200, maximum: 2000 }
