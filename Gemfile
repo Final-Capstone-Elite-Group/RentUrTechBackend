@@ -29,7 +29,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 
 # Active Storage amazon web service
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 
 gem 'interactor', '~> 3.0'
 
