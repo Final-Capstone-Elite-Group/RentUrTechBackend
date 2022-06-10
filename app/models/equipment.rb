@@ -1,5 +1,6 @@
 class Equipment < ApplicationRecord
   after_create_commit :actions_after_create
+  before_destroy :purge_image
 
   belongs_to :user
   has_many :reservations, dependent: :destroy
@@ -14,6 +15,10 @@ class Equipment < ApplicationRecord
   validates :image, presence: true
 
   private
+
+  def purge_image
+    image.purge
+  end
 
   def actions_after_create
     update_columns(url: image_url)
