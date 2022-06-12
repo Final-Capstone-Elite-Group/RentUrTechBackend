@@ -7,20 +7,18 @@ class Reservation < ApplicationRecord
   validates :city, presence: true
   validate :date_available?, if: :reserved_date
 
+  scope :all_reserved_dates, ->(id) { where(equipment_id: id).select('reserved_date') }
+
   private
 
   def date_available?
-    all_reserved_dates&.each do |association|
-      date_time = association["reserved_date"].to_datetime
+    Reservation.all_reserved_dates(equipment_id)&.each do |association|
+      date_time = association['reserved_date'].to_datetime
 
       if (outside_date?(date_time) && not_overlapping?(date_time)) || equal_dates?(date_time)
         errors.add(:reserved_date, 'not available')
       end
     end
-  end
-
-  def all_reserved_dates
-    Reservation.joins(:equipment).where(equipment_id: self.equipment_id).select("reserved_date")
   end
 
   def outside_date?(date_in_datetime)

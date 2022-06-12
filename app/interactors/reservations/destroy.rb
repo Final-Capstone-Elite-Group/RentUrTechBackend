@@ -22,7 +22,9 @@ class Reservations::Destroy
   end
 
   def valid_to_destroy?
-    raise "Not allowed to destroy this Reservation" unless context.reservation_to_destroy && context.reservation_to_destroy.user.id == context.user.id
+    return if context.reservation_to_destroy && context.reservation_to_destroy.user.id == context.user.id
+
+    raise 'Not allowed to destroy this Reservation'
   end
 
   def handle_errors(message)

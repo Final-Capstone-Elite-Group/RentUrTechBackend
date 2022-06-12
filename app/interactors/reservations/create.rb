@@ -21,14 +21,17 @@ class Reservations::Create
   ## Transforms date to UTC so no hour is stored in the database
 
   def sanitize_params!
-    context.reservations_params[:reserved_date] = Time.zone.parse(context.reservations_params[:reserved_date]).strftime('%Y-%m-%d')
+    context.reservations_params[:reserved_date] =
+      Time.zone.parse(context.reservations_params[:reserved_date]).strftime('%Y-%m-%d')
   end
 
   def validate_reservation!
     reserved_date_time_zoned = Time.zone.parse(context.reservations_params[:reserved_date])
     date_now_time_zoned = Time.zone.parse(Time.now.strftime('%Y-%m-%d'))
 
-    raise "Can't be reserved in the past" if context.reservations_params[:reserved_date] && reserved_date_time_zoned < date_now_time_zoned
+    return unless context.reservations_params[:reserved_date] && reserved_date_time_zoned < date_now_time_zoned
+
+    raise "Can't be reserved in the past"
   end
 
   def create_reservation!
