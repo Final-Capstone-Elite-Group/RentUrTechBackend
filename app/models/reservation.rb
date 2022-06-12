@@ -10,13 +10,17 @@ class Reservation < ApplicationRecord
   private
 
   def date_available?
-    equipment&.dates_reserved&.each do |date|
-      date_time = date.to_datetime
+    all_reserved_dates&.each do |association|
+      date_time = association["reserved_date"].to_datetime
 
       if (outside_date?(date_time) && not_overlapping?(date_time)) || equal_dates?(date_time)
         errors.add(:reserved_date, 'not available')
       end
     end
+  end
+
+  def all_reserved_dates
+    Reservation.joins(:equipment).where(equipment_id: self.equipment_id).select("reserved_date")
   end
 
   def outside_date?(date_in_datetime)

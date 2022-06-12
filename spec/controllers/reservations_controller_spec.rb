@@ -26,7 +26,8 @@ RSpec.describe ReservationsController, type: :controller do
   describe 'POST #create' do
     let!(:user) { create(:user) }
     let!(:equipment) { create(:equipment, duration: 1) }
-    let!(:reserved_equipment) { create(:equipment, duration: 1, dates_reserved: [Time.now.strftime('%Y-%m-%d')]) }
+    let!(:reserved_equipment) { create(:equipment, duration: 1) }
+    let!(:reservation) { create(:reservation, equipment: reserved_equipment) }
 
     let(:params) do
       {
@@ -42,9 +43,9 @@ RSpec.describe ReservationsController, type: :controller do
     let(:params2) do
       {
         reservation: {
-          total: 200,
+          total: 150,
           reserved_date: (Time.now + 3.days).strftime('%Y-%m-%d'),
-          city: 'New York',
+          city: 'Germany',
           equipment_id: reserved_equipment.id
         }
       }
@@ -66,14 +67,12 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         post(:create, params:)
         json_response = JSON.parse(response.body)
-        equipment = Equipment.find(json_response['equipment_id'])
 
         expect(response.status).to eq(200)
         expect(json_response['total'].to_f).to eq(params[:reservation][:total])
         expect(json_response['city']).to eq(params[:reservation][:city])
         expect(json_response['equipment_id']).to eq(params[:reservation][:equipment_id])
         expect(json_response['user_id']).to eq(user.id)
-        expect(equipment.dates_reserved.count).to eq(1)
       end
     end
 
@@ -82,11 +81,11 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         post(:create, params: params2)
         json_response = JSON.parse(response.body)
-
-        equipment = Equipment.find(json_response['equipment_id'])
+        created_reservation = Reservation.find(json_response['id'])
 
         expect(response.status).to eq(200)
-        expect(equipment.dates_reserved.count).to eq(2)
+        expect(Reservation.all.count).to eq(2)
+        expect(created_reservation[:reserved_date]).to eq(params2[:reservation][:reserved_date])
       end
     end
 
@@ -108,9 +107,6 @@ RSpec.describe ReservationsController, type: :controller do
     let!(:equipment) { create(:equipment) }
     let!(:reservation) { create(:reservation, equipment:, user:) }
     let!(:another_reservation) { create(:reservation, reserved_date: (Time.now + 2.days).strftime('%Y-%m-%d')) }
-    let!(:pushing_into_equipment) do
-      Equipment.first.update!(dates_reserved: [reservation.reserved_date, another_reservation.reserved_date])
-    end
 
     let(:params) do
       {
@@ -123,11 +119,10 @@ RSpec.describe ReservationsController, type: :controller do
         request.headers.merge(valid_headers)
         delete(:destroy, params:)
         json_response = JSON.parse(response.body)
-        equipment_of_destroyed_reservation = equipment.reload
 
         expect(response.status).to eq(200)
         expect(json_response['data']).to eq('Reservation destroyed successfully')
-        expect(equipment_of_destroyed_reservation.dates_reserved.include?(reservation.reserved_date)).to eq(false)
+        expect(equipment.reload.reservations.include?(reservation.reserved_date)).to eq(false)
         expect(Reservation.all.count).to eq(1)
         expect(Reservation.last.id).to eq(another_reservation.id)
       end
@@ -140,7 +135,7 @@ RSpec.describe ReservationsController, type: :controller do
         json_response = JSON.parse(response.body)
 
         expect(response.status).to eq(422)
-        expect(json_response['data']).to eq('Not allowed to destroy this Reservation')
+        expect(json_response['errors']).to eq('Not allowed to destroy this Reservation')
         expect(Reservation.all.count).to eq(2)
       end
     end

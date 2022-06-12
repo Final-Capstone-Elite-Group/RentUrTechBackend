@@ -6,10 +6,8 @@ class Reservations::Destroy
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      destroy_reservation!
-      remove_date_from_equipment!
-    end
+    valid_to_destroy?
+    destroy_reservation!
   rescue StandardError => e
     handle_errors(e.message)
   end
@@ -17,26 +15,14 @@ class Reservations::Destroy
   private
 
   def destroy_reservation!
-    if valid_to_destroy?
-      context.reservation_to_destroy.destroy!
+    context.reservation_to_destroy.destroy!
 
-      context.message = { data: 'Reservation destroyed successfully' }
-      context.status = 200
-    else
-      context.message = { data: 'Not allowed to destroy this Reservation' }
-      context.status = 422
-    end
+    context.message = { data: 'Reservation destroyed successfully' }
+    context.status = 200
   end
 
   def valid_to_destroy?
-    context.reservation_to_destroy && context.reservation_to_destroy.user.id == context.user.id
-  end
-
-  def remove_date_from_equipment!
-    all_dates = context.reservation_to_destroy.equipment.dates_reserved
-    all_dates -= [context.reservation_to_destroy.reserved_date.strftime('%Y-%m-%d')]
-
-    context.reservation_to_destroy.equipment.update!(dates_reserved: all_dates)
+    raise "Not allowed to destroy this Reservation" unless context.reservation_to_destroy && context.reservation_to_destroy.user.id == context.user.id
   end
 
   def handle_errors(message)
