@@ -9,4 +9,8 @@ class SerializableEquipment < JSONAPI::Serializable::Resource
   attribute :image do
     { url: @object.url }
   end
+
+  attribute :dates_reserved do
+    Reservation.all_reserved_dates(@object.id).map { |reserved_date| reserved_date.strftime('%Y-%m-%d') }
+  end
 end

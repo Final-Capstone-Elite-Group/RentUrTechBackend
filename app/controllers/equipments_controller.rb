@@ -3,7 +3,7 @@ class EquipmentsController < ApplicationController
   skip_before_action :authorize_request, only: %i[index show]
 
   def index
-    ctx = Equipments::Index.call
+    ctx = Equipment::Index.call
 
     return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
 
@@ -11,7 +11,7 @@ class EquipmentsController < ApplicationController
   end
 
   def show
-    ctx = Equipments::Show.call(params:)
+    ctx = Equipment::Show.call(params:)
 
     return json_response({ error: ctx[:error] }, ctx[:status]) if ctx.failure?
 
@@ -19,10 +19,10 @@ class EquipmentsController < ApplicationController
   end
 
   def create
-    ctx = Equipments::Create.call({
-                                    params: equipment_params,
-                                    user: @current_user
-                                  })
+    ctx = Equipment::Create.call({
+                                   params: equipment_params,
+                                   user: @current_user
+                                 })
 
     return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
 
