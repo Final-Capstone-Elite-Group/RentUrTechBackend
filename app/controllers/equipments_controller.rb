@@ -20,9 +20,9 @@ class EquipmentsController < ApplicationController
 
   def create
     ctx = Equipment::Create.call({
-                                    params: equipment_params,
-                                    user: @current_user
-                                  })
+                                   params: equipment_params,
+                                   user: @current_user
+                                 })
 
     return json_response({ errors: ctx[:errors] }, ctx[:status]) if ctx.failure?
 
