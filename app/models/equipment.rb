@@ -13,6 +13,7 @@ class Equipment < ApplicationRecord
   validates :rent_fee, presence: true
   validates :total_amount_payable, presence: true
   validates :image, presence: true
+  validate :proper_numeric_inputs?
 
   private
 
@@ -26,5 +27,15 @@ class Equipment < ApplicationRecord
 
   def image_url
     url_for(image)
+  end
+
+  def proper_numeric_inputs?
+    errors.add(:rent_fee, 'should exist and be greater than or equal to 0') unless rent_fee && rent_fee >= 0
+
+    unless total_amount_payable && total_amount_payable >= 0
+      errors.add(:total_amount_payable, 'should exist and be greater than or equal to 0')
+    end
+
+    errors.add(:duration, 'should exist and be greater than 0') unless duration&.positive?
   end
 end
