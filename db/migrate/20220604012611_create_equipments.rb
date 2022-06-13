@@ -4,7 +4,6 @@ class CreateEquipments < ActiveRecord::Migration[7.0]
       t.string :title
       t.string :description
       t.string :review
-      t.text :dates_reserved, array: true, default: []
       t.integer :duration
       t.decimal :rent_fee
       t.decimal :total_amount_payable
