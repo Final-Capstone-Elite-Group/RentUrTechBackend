@@ -60,14 +60,32 @@ RSpec.describe Equipment, type: :model do
       expect(subject).to_not be_valid
     end
 
+    it 'should have a duration greater than 0' do
+      subject.duration = 0
+
+      expect(subject).to_not be_valid
+    end
+
     it 'should have a rent fee' do
       subject.rent_fee = nil
 
       expect(subject).to_not be_valid
     end
 
+    it 'should have a rent fee greater than or equal to 0' do
+      subject.duration = -5
+
+      expect(subject).to_not be_valid
+    end
+
     it 'should have a total amount payable' do
       subject.total_amount_payable = nil
+
+      expect(subject).to_not be_valid
+    end
+
+    it 'should have a total amount greater than or equal to 0' do
+      subject.duration = -5
 
       expect(subject).to_not be_valid
     end
