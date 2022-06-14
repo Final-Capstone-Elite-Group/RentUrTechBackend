@@ -8,8 +8,8 @@ class Equipment::Create
   def call
     sanitize_params
     create_equipment!
-  rescue ActiveSupport::MessageVerifier::InvalidSignature => e
-    handle_errors("There was an error with the image you try to upload")
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    handle_errors('There was an error with the image you try to upload')
   rescue StandardError => e
     handle_errors(e.message)
   end

@@ -11,7 +11,7 @@
 
 admin = User.create({
   name: FFaker::Name.name,
-  username: FFaker::Internet.user_name,
+  username: 'admin',
   email: FFaker::Internet.email,
   password: "test1234",
   role: 'admin'
