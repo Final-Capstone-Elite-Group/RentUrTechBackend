@@ -1,4 +1,6 @@
 class JsonWebToken
+  include Message
+
   # secret to encode and decode token
   HMAC_SECRET = Rails.application.secret_key_base
 
@@ -10,5 +12,7 @@ class JsonWebToken
   def self.decode(token)
     body = JWT.decode(token, HMAC_SECRET)[0]
     HashWithIndifferentAccess.new body
+    rescue JWT::ExpiredSignature => e
+      raise StandardError.new( "#{Message.invalid_token} #{e.message}" )
   end
 end
