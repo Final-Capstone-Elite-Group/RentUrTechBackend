@@ -116,6 +116,14 @@ In the root folder to check the consistency of the app. Please don't make change
  **LinkedIn**: | [Leonardo Albornoz](https://linkedin.com/in/leboroz)
 
 
+## Kanban board 
+> You can check our [Kanban board](https://github.com/orgs/Final-Capstone-Elite-Group/projects/1)
+![image](https://user-images.githubusercontent.com/43800831/171513937-f29458d0-b791-4107-ac63-859d80112172.png)
+
+### Group Members Count
+
+> For this final Capstone project we were a total of **5 members**
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
